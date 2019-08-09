@@ -12,10 +12,10 @@ workflows:
             - deploy
 
 jobs:
-deploy:
-    executor: heroku/default # Uses the basic buildpack-deps image, which has the prerequisites for installing heroku's CLI.
-    steps:
-        - checkout
-        - heroku/install # Runs the heroku install command, if necessary.
-        - heroku/deploy-via-git: # Deploys branch to Heroku via git push.
-              only-branch: master # If you specify an only-branch, the deploy will not occur for any other branch.
+    deploy:
+        executor: heroku/default # Uses the basic buildpack-deps image, which has the prerequisites for installing heroku's CLI.
+        steps:
+            - checkout
+            - heroku/install # Runs the heroku install command, if necessary.
+            - heroku/deploy-via-git: # Deploys branch to Heroku via git push.
+                  only-branch: master # If you specify an only-branch, the deploy will not occur for any other branch.
