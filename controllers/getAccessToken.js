@@ -1,4 +1,4 @@
-const SCOPES = ['https://www.googleapis.com/auth/calendar3']
+const SCOPES = ['https://www.googleapis.com/auth/calendar']
 
 async function getAccessToken(oAuth2Client, { req, res }) {
     const authUrl = await oAuth2Client.generateAuthUrl({
