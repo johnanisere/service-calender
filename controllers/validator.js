@@ -8,7 +8,7 @@ exports.validator = body => {
         startTime: Joi.string().required(),
         endTime: Joi.string().required(),
         timezone: Joi.string().required(),
-        email: Joi.string()
+        devemail: Joi.string()
             .email()
             .required(),
     }
