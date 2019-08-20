@@ -1,9 +1,6 @@
 const Joi = require('@hapi/joi')
 
 exports.validator = body => {
-    {
-        title, location, description, startTime, endTime, timezone, email
-    }
     const schema = {
         title: Joi.string().max(50),
         location: Joi.string().required(),
