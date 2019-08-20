@@ -11,6 +11,9 @@ exports.validator = body => {
         devemail: Joi.string()
             .email()
             .required(),
+        email: Joi.string()
+            .email()
+            .required(),
     }
 
     return Joi.validate(body, schema)
