@@ -42,7 +42,7 @@ async function calenderEvents(req, res, oAuth2Client) {
     }
 
     const { error } = validator(req.body)
-    if (error) return res.status(404).send(error.details[0].message)
+    if (error) return res.status(400).send(error.details[0].message)
 
     calendar.events.insert(
         {
@@ -54,7 +54,7 @@ async function calenderEvents(req, res, oAuth2Client) {
                 return res.status(400).send(err)
             }
 
-            res.send(response.data.items)
+            res.send(response.data)
         }
     )
 }
@@ -74,7 +74,7 @@ function createEvent(req, res) {
     fs.readFile(TOKEN_PATH, (err, token) => {
         if (err) {
             return res
-                .status(400)
+                .status(401)
                 .send({ message: 'Authorization failed', error: err })
         }
         oAuth2Client.setCredentials(JSON.parse(token))
