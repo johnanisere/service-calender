@@ -9,7 +9,37 @@ async function calenderEvents(req, res, oAuth2Client) {
         auth: oAuth2Client,
     })
 
-    const event = req.body
+    const {
+        title,
+        location,
+        description,
+        startTime,
+        endTime,
+        timezone,
+        email,
+    } = req.body
+
+    const event = {
+        summary: title,
+        location: location,
+        description: description,
+        start: {
+            dateTime: startTime,
+            timeZone: timezone,
+        },
+        end: {
+            dateTime: endTime,
+            timeZone: timezone,
+        },
+        attendees: [{ email: email }],
+        reminders: {
+            useDefault: false,
+            overrides: [
+                { method: 'email', minutes: 24 * 60 },
+                { method: 'popup', minutes: 10 },
+            ],
+        },
+    }
 
     const { error } = validator(event)
     if (error) return res.status(404).send(error.details[0].message)

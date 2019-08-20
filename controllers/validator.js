@@ -1,14 +1,17 @@
-const Joi = require('@hapi/joi');
+const Joi = require('@hapi/joi')
 
-exports.validator = (body) => {
-  {summary, location, description, attendees, reminders }
-  const schema = {
-    summary: Joi.string().max(50),
-    location: Joi.string().required(),
-    description: Joi.string().min(10),
-    attendees: Joi.string().email().required(),
-    reminders: Joi.string().required()
-  }
+exports.validator = body => {
+    const schema = {
+        title: Joi.string().max(50),
+        location: Joi.string().required(),
+        description: Joi.string().min(10),
+        startTime: Joi.string().required(),
+        endTime: Joi.string().required(),
+        timezone: Joi.string().required(),
+        email: Joi.string()
+            .email()
+            .required(),
+    }
 
-  return Joi.validate(body, schema)
+    return Joi.validate(body, schema)
 }
