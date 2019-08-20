@@ -11,11 +11,6 @@ async function getAccessToken(req, res) {
     )
     const { code, email } = req.body
 
-    // const authUrl = await oAuth2Client.generateAuthUrl({
-    //     access_type: 'offline',
-    //     scope: SCOPES,
-    // })
-    // res.send({ authUrl })
     const TOKEN_PATH = `${email}.json`
 
     oAuth2Client.getToken(code, (err, token) => {
@@ -33,7 +28,6 @@ async function getAccessToken(req, res) {
             })
             console.log('Token stored to', TOKEN_PATH)
         })
-        // callback(oAuth2Client)
     })
 }
 

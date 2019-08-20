@@ -11,11 +11,12 @@ function authorize(credentials, { req, res }) {
     )
     const { email } = req.body
     const TOKEN_PATH = `${email}.json`
+    
     // Check if we have previously stored a token.
     fs.readFile(TOKEN_PATH, (err, token) => {
         if (err) return getAccessToken(oAuth2Client, { req, res })
-        oAuth2Client.setCredentials(JSON.parse(token))
-        res.send({ message: 'user already signIn' })
+        oAuth2Client.setCredentials(JSON.parse(token));
+        res.send({ message: 'user already signIn' });
     })
 }
 
