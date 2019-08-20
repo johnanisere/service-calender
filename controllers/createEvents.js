@@ -16,7 +16,7 @@ async function calenderEvents(req, res, oAuth2Client) {
         startTime,
         endTime,
         timezone,
-        email,
+        devemail,
     } = req.body
 
     const event = {
@@ -31,7 +31,7 @@ async function calenderEvents(req, res, oAuth2Client) {
             dateTime: endTime,
             timeZone: timezone,
         },
-        attendees: [{ email: email }],
+        attendees: [{ email: devemail }],
         reminders: {
             useDefault: false,
             overrides: [
