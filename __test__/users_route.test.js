@@ -1,17 +1,43 @@
-import request from 'supertest'
-import users from '../routes/index'
-import app from '../app'
+const request = require('supertest')
+const app = require('../app')
 
-//mocking the credentials
-const credentials = {
-    installed: {
-        client_secret: 'a client secret',
-        client_id: 'a client Id',
-        redirect_uris: 'a redirect uri',
-    },
-}
+//since the token expires every one hour, how do I test for the correct output.
+const authUrl = 'kwlnemblwirehjkrhjbrn'
 
-const { client_secret, client_id, redirect_uris } = credentials.installed
-const googleAuth = jest.fn(x => {
-    client_secret, client_id, redirect_uris
+describe('Authenticates the users', () => {
+    test('verifies that the authUrl was sent', () => {
+        return request(app)
+            .post('/authenticate-user')
+            .send({})
+            .expect(res => {
+                expect(Object.keys(res.body)).toContain('authUrl')
+            })
+    })
+})
+
+describe('Authorize the users', () => {
+    //this is an invalid code and I am testing that it actually fails.
+    const email = 'xyz@gmail.com'
+    const code = 'hjsnmlabiwkjermhduikjheiulkjmhw'
+    test('authorize the user', () => {
+        return request(app)
+            .post('/authorize-user')
+            .send({ email, code })
+            .expect(res => {
+                expect(res).toMatchObject({ status: 400 })
+            })
+    })
+})
+
+describe('List the users events', () => {
+    const email = 'xyz@gmail.com'
+    test('calender events of a user', () => {
+        return request(app)
+            .get('/calender-events')
+            .query(email)
+            .expect(res => {
+                expect(res.req.data).toBe(undefined)
+                expect(res).toMatchObject({ status: 400 })
+            })
+    })
 })

@@ -9,6 +9,7 @@ async function getAccessToken(req, res) {
         client_secret,
         redirect_uris[0]
     )
+    console.log(req.body)
     const { code, email } = req.body
 
     const TOKEN_PATH = `${email}.json`
@@ -16,7 +17,7 @@ async function getAccessToken(req, res) {
     oAuth2Client.getToken(code, (err, token) => {
         if (err) {
             res.status(400).send(err)
-            return console.error('Error retrieving access token', err)
+            return `Error retrieving access token ${err}`
         }
 
         oAuth2Client.setCredentials(token)
