@@ -1,17 +1,100 @@
-import request from 'supertest'
-import users from '../routes/index'
-import app from '../app'
+const request = require('supertest')
+const app = require('../app')
 
-//mocking the credentials
-const credentials = {
-    installed: {
-        client_secret: 'a client secret',
-        client_id: 'a client Id',
-        redirect_uris: 'a redirect uri',
-    },
-}
+//since the token expires every one hour, how do I test for the correct output.
+const authUrl = 'kwlnemblwirehjkrhjbrn'
 
-const { client_secret, client_id, redirect_uris } = credentials.installed
-const googleAuth = jest.fn(x => {
-    client_secret, client_id, redirect_uris
+describe('Authenticates the users', () => {
+    test('verifies that the authUrl was sent', () => {
+        return request(app)
+            .post('/authenticate-user')
+            .send({})
+            .expect(res => {
+                expect(Object.keys(res.body)).toContain('authUrl')
+            })
+    })
+})
+
+describe('Authorize the users', () => {
+    //this is an invalid code and I am testing that it actually fails.
+    const email = 'xyz@gmail.com'
+    const code = 'hjsnmlabiwkjermhduikjheiulkjmhw'
+    test('authorize the user', () => {
+        return request(app)
+            .post('/authorize-user')
+            .send({ email, code })
+            .expect(res => {
+                expect(res).toMatchObject({ status: 400 })
+            })
+    })
+})
+
+describe('List the users events', () => {
+    const email = 'xyz@gmail.com'
+    test('calender events of a user', () => {
+        return request(app)
+            .get('/calender-events')
+            .query(email)
+            .expect(res => {
+                expect(res.req.data).toBe(undefined)
+                expect(res).toMatchObject({ status: 400 })
+            })
+    })
+})
+
+describe('create the users calender events', () => {
+    const title = 'Book a DecaDev'
+    const location = 'Decagon Institute'
+    const description = 'Interview for the role of an intermediate dev'
+    const startTime = '10am'
+    const endTime = '12pm'
+    const timezone = 'Angeles Arizona'
+    const devemail = 'charleslukes28@gmail.com'
+
+    // since the user is not verified this test will return an error
+    test('should error when user is not', () => {
+        return request(app)
+            .post('/create-event')
+            .send({
+                title,
+                location,
+                description,
+                startTime,
+                endTime,
+                timezone,
+                devemail,
+            })
+            .expect(res => {
+                expect(Object.keys(res.body)).toContain('message')
+                expect(Object.keys(res.body)).toContain('error')
+            })
+    })
+})
+
+describe('Update the users calender events', () => {
+    const title = 'Book another DecaDev'
+    const location = 'Decagon Institute Lagos'
+    const description = 'Interview for the role of an intermediate dev'
+    const startTime = '1pm'
+    const endTime = '3pm'
+    const timezone = 'Angeles Arizona'
+    const devemail = 'charleslukes28@gmail.com'
+
+    test('', () => {
+        return request(app)
+            .patch('/update-event')
+            .send({
+                title,
+                location,
+                description,
+                startTime,
+                endTime,
+                timezone,
+                devemail,
+            })
+            .expect(res => {
+                expect(Object.keys(res.body)).toContain('message')
+                expect(Object.keys(res.body)).toContain('error')
+            })
+    })
 })
