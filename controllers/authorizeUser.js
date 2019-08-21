@@ -9,7 +9,7 @@ async function getAccessToken(req, res) {
         client_secret,
         redirect_uris[0]
     )
-    console.log(req.body)
+
     const { code, email } = req.body
 
     const TOKEN_PATH = `${email}.json`

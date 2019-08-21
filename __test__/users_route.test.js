@@ -41,3 +41,60 @@ describe('List the users events', () => {
             })
     })
 })
+
+describe('create the users calender events', () => {
+    const title = 'Book a DecaDev'
+    const location = 'Decagon Institute'
+    const description = 'Interview for the role of an intermediate dev'
+    const startTime = '10am'
+    const endTime = '12pm'
+    const timezone = 'Angeles Arizona'
+    const devemail = 'charleslukes28@gmail.com'
+
+    // since the user is not verified this test will return an error
+    test('should error when user is not', () => {
+        return request(app)
+            .post('/create-event')
+            .send({
+                title,
+                location,
+                description,
+                startTime,
+                endTime,
+                timezone,
+                devemail,
+            })
+            .expect(res => {
+                expect(Object.keys(res.body)).toContain('message')
+                expect(Object.keys(res.body)).toContain('error')
+            })
+    })
+})
+
+describe('Update the users calender events', () => {
+    const title = 'Book another DecaDev'
+    const location = 'Decagon Institute Lagos'
+    const description = 'Interview for the role of an intermediate dev'
+    const startTime = '1pm'
+    const endTime = '3pm'
+    const timezone = 'Angeles Arizona'
+    const devemail = 'charleslukes28@gmail.com'
+
+    test('', () => {
+        return request(app)
+            .patch('/update-event')
+            .send({
+                title,
+                location,
+                description,
+                startTime,
+                endTime,
+                timezone,
+                devemail,
+            })
+            .expect(res => {
+                expect(Object.keys(res.body)).toContain('message')
+                expect(Object.keys(res.body)).toContain('error')
+            })
+    })
+})
